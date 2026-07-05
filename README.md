@@ -56,9 +56,17 @@ aws_access_key_id     = ...
 aws_secret_access_key = ...
 ```
 
+Create `terraform.tfvars` (gitignored — **not** in the repo) from the example, and set
+at least `domain_name`:
+
+```bash
+cp terraform.tfvars.example terraform.tfvars
+# edit: domain_name (required), aws_profile
+```
+
 DNS is managed in **Cloudflare** on my own domain **`thxn.cloud`** (records added as
-DNS-only / grey-cloud). Set `domain_name` in `terraform.tfvars`, then — staged,
-because the ACM cert validates through external DNS:
+DNS-only / grey-cloud). Then apply — staged, because the ACM cert validates through
+external DNS:
 
 ```bash
 terraform init
