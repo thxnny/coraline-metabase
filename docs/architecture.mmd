@@ -1,0 +1,30 @@
+%% Source for docs/architecture.svg — edit here, then re-render (e.g. mermaid.live or mmdc).
+flowchart TD
+    user([Internet / User]) -->|HTTPS 443| dns["Cloudflare DNS<br/>metabase.thxn.cloud"]
+    dns --> alb
+
+    subgraph vpc["VPC 10.0.0.0/16 · 2 AZs"]
+      direction TB
+      subgraph pub["Public subnets"]
+        alb["ALB<br/>internet-facing · ACM/TLS"]
+        nat["NAT Gateway"]
+      end
+      subgraph priv["Private subnets"]
+        ecs["ECS Fargate: Metabase<br/>no public IP"]
+      end
+      subgraph data["Database subnets · no internet route"]
+        rds[("RDS PostgreSQL 17<br/>publicly_accessible = false")]
+      end
+      alb -->|"3000 · alb_sg → ecs_sg"| ecs
+      ecs -->|"5432 · ecs_sg → rds_sg"| rds
+      ecs -.->|image pull| nat
+    end
+
+    nat --> out([Internet egress])
+    sm["Secrets Manager<br/>DB password · MB key"] -.-> ecs
+    ecs -.-> cw["CloudWatch Logs"]
+
+    style pub fill:#dbeafe,stroke:#3b82f6,color:#1e3a8a
+    style priv fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style data fill:#fee2e2,stroke:#ef4444,color:#7f1d1d
+    style rds fill:#fecaca,stroke:#b91c1c,color:#7f1d1d

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 720" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475569"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="780" height="720" fill="#ffffff"/>
+
+  <!-- Internet -->
+  <ellipse cx="250" cy="42" rx="96" ry="26" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="250" y="47" text-anchor="middle" font-size="13" fill="#334155">Internet / User</text>
+
+  <!-- Cloudflare DNS -->
+  <rect x="160" y="96" width="180" height="48" rx="7" fill="#ffffff" stroke="#64748b"/>
+  <text x="250" y="117" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#334155">Cloudflare DNS</text>
+  <text x="250" y="133" text-anchor="middle" font-size="10.5" fill="#64748b">metabase.thxn.cloud</text>
+
+  <line x1="250" y1="68" x2="250" y2="94" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="258" y="85" font-size="10" fill="#334155">HTTPS 443</text>
+  <line x1="250" y1="144" x2="250" y2="236" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- VPC -->
+  <rect x="36" y="172" width="560" height="524" rx="12" fill="none" stroke="#94a3b8" stroke-dasharray="5 4"/>
+  <text x="52" y="193" font-size="12" font-weight="bold" fill="#475569">VPC · 10.0.0.0/16 · 2 AZs</text>
+
+  <!-- Public tier -->
+  <rect x="60" y="210" width="512" height="98" rx="8" fill="#dbeafe" stroke="#3b82f6"/>
+  <text x="74" y="228" font-size="11" font-weight="bold" fill="#1e3a8a">PUBLIC SUBNETS</text>
+  <rect x="88" y="240" width="290" height="54" rx="6" fill="#ffffff" stroke="#3b82f6"/>
+  <text x="233" y="262" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1e3a8a">ALB</text>
+  <text x="233" y="279" text-anchor="middle" font-size="10.5" fill="#475569">internet-facing · ACM/TLS</text>
+  <rect x="406" y="240" width="150" height="54" rx="6" fill="#ffffff" stroke="#3b82f6"/>
+  <text x="481" y="271" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">NAT Gateway</text>
+
+  <!-- Private tier -->
+  <rect x="60" y="340" width="512" height="92" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="74" y="358" font-size="11" font-weight="bold" fill="#14532d">PRIVATE SUBNETS</text>
+  <rect x="88" y="368" width="310" height="52" rx="6" fill="#ffffff" stroke="#16a34a"/>
+  <text x="243" y="390" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#14532d">ECS Fargate — Metabase</text>
+  <text x="243" y="406" text-anchor="middle" font-size="10.5" fill="#475569">no public IP</text>
+
+  <!-- Database tier -->
+  <rect x="60" y="464" width="512" height="100" rx="8" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="74" y="482" font-size="11" font-weight="bold" fill="#7f1d1d">DATABASE SUBNETS — no internet route</text>
+  <rect x="88" y="494" width="310" height="56" rx="6" fill="#fecaca" stroke="#b91c1c"/>
+  <text x="243" y="516" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#7f1d1d">RDS PostgreSQL 17</text>
+  <text x="243" y="533" text-anchor="middle" font-size="10.5" fill="#7f1d1d">publicly_accessible = false</text>
+
+  <!-- flow arrows -->
+  <line x1="238" y1="294" x2="238" y2="366" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="246" y="333" font-size="10" fill="#334155">3000 · alb_sg → ecs_sg</text>
+  <line x1="238" y1="420" x2="238" y2="492" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="246" y="461" font-size="10" fill="#334155">5432 · ecs_sg → rds_sg</text>
+
+  <!-- image pull via NAT -->
+  <path d="M398,388 L481,388 L481,296" fill="none" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+  <text x="486" y="360" font-size="9.5" fill="#64748b">image pull</text>
+  <line x1="512" y1="238" x2="512" y2="196" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+  <text x="520" y="212" font-size="9.5" fill="#64748b">→ internet (egress)</text>
+
+  <!-- side services -->
+  <rect x="612" y="356" width="150" height="52" rx="6" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="687" y="376" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#5b21b6">Secrets Manager</text>
+  <text x="687" y="392" text-anchor="middle" font-size="10" fill="#6d28d9">DB password · MB key</text>
+  <line x1="612" y1="388" x2="400" y2="388" stroke="#a78bda" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+
+  <rect x="612" y="470" width="150" height="48" rx="6" fill="#ffffff" stroke="#d97706"/>
+  <text x="687" y="498" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#92400e">CloudWatch Logs</text>
+  <path d="M398,410 L505,410 L505,494 L610,494" fill="none" stroke="#e0a353" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+
+  <text x="390" y="680" text-anchor="middle" font-size="10.5" fill="#64748b">SG chain: internet ─443─► alb_sg ─3000─► ecs_sg ─5432─► rds_sg   (each hop allows only the previous SG, no CIDRs)</text>
+</svg>
