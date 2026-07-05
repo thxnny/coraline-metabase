@@ -20,7 +20,7 @@ flowchart TD
       ecs -.->|image pull| nat
     end
 
-    nat --> out([Internet egress])
+    nat -.->|pull image| reg["Docker Hub registry<br/>metabase/metabase"]
     sm["Secrets Manager<br/>DB password · MB key"] -.-> ecs
     ecs -.-> cw["CloudWatch Logs"]
 
@@ -28,3 +28,4 @@ flowchart TD
     style priv fill:#dcfce7,stroke:#16a34a,color:#14532d
     style data fill:#fee2e2,stroke:#ef4444,color:#7f1d1d
     style rds fill:#fecaca,stroke:#b91c1c,color:#7f1d1d
+    style reg fill:#ffffff,stroke:#2496ed,color:#0b6bb8

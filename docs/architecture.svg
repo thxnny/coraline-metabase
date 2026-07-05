@@ -56,8 +56,11 @@
   <!-- image pull via NAT -->
   <path d="M398,388 L481,388 L481,296" fill="none" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
   <text x="486" y="360" font-size="9.5" fill="#64748b">image pull</text>
-  <line x1="512" y1="238" x2="512" y2="196" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
-  <text x="520" y="212" font-size="9.5" fill="#64748b">→ internet (egress)</text>
+  <!-- Docker Hub registry (image source, reached via NAT) -->
+  <rect x="470" y="94" width="196" height="50" rx="6" fill="#ffffff" stroke="#2496ed"/>
+  <text x="568" y="114" text-anchor="middle" font-size="12" font-weight="bold" fill="#0b6bb8">Docker Hub registry</text>
+  <text x="568" y="130" text-anchor="middle" font-size="10" fill="#2563eb">metabase/metabase image</text>
+  <path d="M512,240 L512,172 L568,172 L568,146" fill="none" stroke="#94a3b8" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
 
   <!-- side services -->
   <rect x="612" y="356" width="150" height="52" rx="6" fill="#ffffff" stroke="#7c3aed"/>

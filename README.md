@@ -78,21 +78,30 @@ Destroy: `terraform destroy`.
 
 ## Test
 
-**1. Visit the site** — open <https://metabase.thxn.cloud> in a browser; you should
-get the Metabase login / setup page over HTTPS.
+### Anyone can verify — no AWS credentials
 
-**2. Health check** — should return `{"status":"ok"}`:
+**1. Site is public over HTTPS** — open <https://metabase.thxn.cloud> (Metabase
+login / setup page).
+
+**2. Health check:**
 
 ```bash
-curl -sSf https://metabase.thxn.cloud/api/health
+curl -sSf https://metabase.thxn.cloud/api/health   # {"status":"ok"}
 ```
 
-**3. Database is NOT reachable from the internet** — should be `false`, and the direct
-connection from your machine should time out:
+**3. DB is private — by design in the code:** `4_rds.tf` (`publicly_accessible = false`,
+database subnets), `2_security.tf` (5432 only from the ECS SG), and `1_network.tf`
+(database subnets have no route to the Internet Gateway). Nothing outside the VPC can
+reach it.
+
+### Owner confirmation — needs account access
 
 ```bash
+# config: RDS is not public
 aws rds describe-db-instances --db-instance-identifier coraline-metabase \
   --profile coraline-iac --region ap-southeast-1 \
-  --query 'DBInstances[0].PubliclyAccessible'      # false
+  --query 'DBInstances[0].PubliclyAccessible'          # false
+
+# network: a direct connection times out
 psql -h "$(terraform output -raw rds_endpoint | cut -d: -f1)" -U metabase metabase  # times out
 ```
