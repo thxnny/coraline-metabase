@@ -3,9 +3,6 @@
 Terraform: **Metabase** public over HTTPS, its **PostgreSQL** private (reachable only
 by Metabase). Live: **https://metabase.thxn.cloud**
 
-> **Reviewer login** — sign in at **https://metabase.thxn.cloud**:
-> email `metabase@test.com` · password `kpX4m0Hw34uOToo3`
-
 ## Contents
 
 - [Architecture](#architecture)
@@ -95,8 +92,10 @@ Destroy: `terraform destroy`.
 
 ### Anyone can verify — no AWS credentials
 
-**1. Site is public over HTTPS** — open <https://metabase.thxn.cloud> (Metabase
-login / setup page).
+**1. Site is public over HTTPS** — open <https://metabase.thxn.cloud> and sign in:
+
+- **Email:** `metabase@test.com`
+- **Password:** `kpX4m0Hw34uOToo3`
 
 **2. Health check:**
 
