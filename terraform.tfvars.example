@@ -1,0 +1,12 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored.
+
+region      = "ap-southeast-1"
+aws_profile = "" # e.g. "coraline-iac"; empty uses default credential chain
+domain_name = "metabase.example.com"
+
+# Optional sizing / version overrides:
+# metabase_image         = "metabase/metabase:v0.50.30"
+# metabase_cpu           = 1024
+# metabase_memory        = 2048
+# metabase_desired_count = 1
+# db_instance_class      = "db.t4g.micro"
