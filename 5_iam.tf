@@ -8,7 +8,7 @@ data "aws_iam_policy_document" "ecs_assume" {
   }
 }
 
-# --- Execution role: pulls the image, reads secrets, writes logs -------------
+# Execution role: pulls the image, reads secrets, writes logs.
 resource "aws_iam_role" "task_execution" {
   name               = "${local.name}-exec"
   assume_role_policy = data.aws_iam_policy_document.ecs_assume.json
@@ -35,9 +35,7 @@ resource "aws_iam_role_policy" "task_execution_secrets" {
   policy = data.aws_iam_policy_document.secrets_read.json
 }
 
-# --- Task role: identity of the running container ---------------------------
-# Kept minimal; the SSM permissions enable `aws ecs execute-command` for the
-# private-database negative test in the verification steps.
+# Task role: SSM permissions enable `aws ecs execute-command`
 resource "aws_iam_role" "task" {
   name               = "${local.name}-task"
   assume_role_policy = data.aws_iam_policy_document.ecs_assume.json

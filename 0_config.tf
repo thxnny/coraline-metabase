@@ -13,7 +13,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 6.28" # required by vpc 6.6 / rds 7.x / alb 10.x
+      version = "~> 6.28"
     }
     random = {
       source  = "hashicorp/random"

@@ -3,12 +3,16 @@
 Terraform: **Metabase** public over HTTPS, its **PostgreSQL** private (reachable only
 by Metabase). Live: **https://metabase.thxn.cloud**
 
+> **Reviewer login** — sign in at **https://metabase.thxn.cloud**:
+> email `metabase@test.com` · password `kpX4m0Hw34uOToo3`
+
 ## Contents
 
 - [Architecture](#architecture)
 - [Layout](#layout)
 - [Setup](#setup)
 - [Test](#test)
+- [Screenshots](#screenshots)
 
 ## Architecture
 
@@ -56,13 +60,16 @@ aws_access_key_id     = ...
 aws_secret_access_key = ...
 ```
 
-Create `terraform.tfvars` (gitignored — **not** in the repo) from the example, and set
-at least `domain_name`:
+Create `terraform.tfvars` (gitignored — **not** committed) with these values:
 
-```bash
-cp terraform.tfvars.example terraform.tfvars
-# edit: domain_name (required), aws_profile
+```hcl
+domain_name = "metabase.thxn.cloud"
+aws_profile = "coraline-iac"
 ```
+
+To spin up **your own** instance instead, change `domain_name` to a domain you control
+(and `aws_profile` to your AWS profile) — then point that domain's DNS at the ALB as
+described below.
 
 DNS is managed in **Cloudflare** on my own domain **`thxn.cloud`** (records added as
 DNS-only / grey-cloud). Then apply — staged, because the ACM cert validates through
@@ -113,3 +120,14 @@ aws rds describe-db-instances --db-instance-identifier coraline-metabase \
 # network: a direct connection times out
 psql -h "$(terraform output -raw rds_endpoint | cut -d: -f1)" -U metabase metabase  # times out
 ```
+
+## Screenshots
+
+**Cloudflare DNS** — both records are DNS-only (grey cloud): the ACM validation CNAME
+and `metabase.thxn.cloud` → the ALB hostname.
+
+![Cloudflare DNS records for thxn.cloud](docs/cloudflare-dns.png)
+
+**Live site** — signed in to Metabase over HTTPS at metabase.thxn.cloud.
+
+![Metabase home](docs/metabase-home.png)

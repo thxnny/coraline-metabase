@@ -9,7 +9,6 @@ module "alb" {
   internal                   = false # internet-facing
   enable_deletion_protection = false
 
-  # Module-managed ALB security group (this is `alb_sg` in the plan).
   security_group_ingress_rules = {
     http = {
       from_port   = 80

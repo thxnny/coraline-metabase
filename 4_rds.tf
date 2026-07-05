@@ -18,10 +18,6 @@ module "rds" {
   username = var.db_username
   port     = 5432
 
-  # We manage the master password ourselves (random_password -> Secrets Manager)
-  # so the same value can be injected into the ECS task.
-  # RDS module v7 dropped `password` in favour of write-only attributes: the
-  # value never lands in state. Bump `password_wo_version` to rotate.
   manage_master_user_password = false
   password_wo                 = random_password.db.result
   password_wo_version         = 1
@@ -32,8 +28,8 @@ module "rds" {
   vpc_security_group_ids = [aws_security_group.rds.id]
 
   backup_retention_period = 7
-  deletion_protection     = false # challenge stack: allow clean `terraform destroy`
-  skip_final_snapshot     = true  # no final snapshot (Metabase metadata is disposable)
+  deletion_protection     = false # prod: true — false here because this is only a test
+  skip_final_snapshot     = true  # prod: false — true here because this is only a test
 
   performance_insights_enabled = false
   create_monitoring_role       = false

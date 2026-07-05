@@ -59,11 +59,9 @@ resource "aws_ecs_service" "metabase" {
   desired_count   = var.metabase_desired_count
   launch_type     = "FARGATE"
 
-  # Metabase runs DB migrations on first boot and is slow to become healthy;
-  # a generous grace period avoids a crash loop of killed-before-ready tasks.
   health_check_grace_period_seconds = 300
 
-  enable_execute_command = true # for the private-DB negative test
+  enable_execute_command = true
 
   network_configuration {
     subnets          = module.vpc.private_subnets

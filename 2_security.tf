@@ -2,7 +2,6 @@
 #   internet -> alb_sg (created by the ALB module) -> ecs_sg -> rds_sg
 # RDS accepts traffic ONLY from the Metabase tasks; nothing from the internet.
 
-# --- ECS task security group -------------------------------------------------
 resource "aws_security_group" "ecs" {
   name        = "${local.name}-ecs"
   description = "Metabase Fargate tasks"
@@ -29,7 +28,6 @@ resource "aws_vpc_security_group_egress_rule" "ecs_all" {
   ip_protocol       = "-1"
 }
 
-# --- RDS security group ------------------------------------------------------
 resource "aws_security_group" "rds" {
   name        = "${local.name}-rds"
   description = "Metabase PostgreSQL"
